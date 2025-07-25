@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
 <title>❤</title>
 <style>
+  :root{
+    --love-size:28vmin;   /* 默认值，会被脚本覆盖 */
+    --pop-max:180px;
+    --pop-pad:8px 12px;
+    --pop-fs:14px;
+  }
+
   *{margin:0;padding:0;box-sizing:border-box;}
   html,body{height:100%;overflow:hidden;background:#fff;
             font-family:-apple-system,BlinkMacSystemFont,"SF Pro",sans-serif;}
@@ -12,9 +19,11 @@
   #bigHeart{
     position:absolute;top:50%;left:50%;
     transform:translate(-50%,-50%);
-    font-size:24vmin;
+    font-size:var(--love-size);
     line-height:1;
-    color:#ffb3c1;                 /* 柔和淡粉 */
+    background:linear-gradient(135deg,#ffb3c1 0%,#fee2e8 100%);
+    -webkit-background-clip:text;
+    color:transparent;
     animation:pulse 2.4s ease-in-out infinite;
   }
   @keyframes pulse{
@@ -24,15 +33,15 @@
 
   .popup{
     position:absolute;
-    max-width:120px;             /* 再缩小 */
-    padding:6px 10px;
+    max-width:var(--pop-max);
+    padding:var(--pop-pad);
     background:#ffb3c1;
     color:#fff;
-    font-size:12px;
+    font-size:var(--pop-fs);
     font-weight:500;
     text-align:center;
     line-height:1.3;
-    border-radius:18px;
+    border-radius:20px;
     box-shadow:0 2px 8px rgba(255,179,193,.25);
     pointer-events:none;
     animation:popFade 6s forwards;
@@ -41,7 +50,7 @@
     0%   {opacity:0;transform:translateY(12px) scale(.45);}
     8%   {opacity:1;transform:translateY(0) scale(1);}
     92%  {opacity:1;transform:translateY(0) scale(1);}
-    100% {opacity:0;transform:translateY(-6px) scale(.85);}
+    100% {opacity:0;translateY(-6px) scale(.85);}
   }
 </style>
 </head>
@@ -49,6 +58,22 @@
   <div id="bigHeart">❤</div>
 
 <script>
+  /* 设备检测并设置 CSS 变量 */
+  (function setSizes(){
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile){
+      document.documentElement.style.setProperty('--love-size','22vmin');
+      document.documentElement.style.setProperty('--pop-max','110px');
+      document.documentElement.style.setProperty('--pop-pad','6px 10px');
+      document.documentElement.style.setProperty('--pop-fs','12px');
+    }else{
+      document.documentElement.style.setProperty('--love-size','15vmin');
+      document.documentElement.style.setProperty('--pop-max','160px');
+      document.documentElement.style.setProperty('--pop-pad','10px 14px');
+      document.documentElement.style.setProperty('--pop-fs','16px');
+    }
+  })();
+
   const words = [
     '一次拒稿只是弯道，不是终点。',
     'Reviewer 不懂你的好，是他们损失。',
@@ -72,26 +97,25 @@
     '你超棒的，加油！'
   ];
 
-  function createLove(text) {
+  function createLove(text){
     const pop = document.createElement('div');
     pop.className = 'popup';
     pop.textContent = text;
-    pop.style.left = Math.random() * (window.innerWidth - 120) + 'px';
+    pop.style.left = Math.random() * (window.innerWidth - parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pop-max'))) + 'px';
     pop.style.top  = Math.random() * (window.innerHeight - 50) + 'px';
     document.body.appendChild(pop);
     setTimeout(() => pop.remove(), 6000);
   }
 
-  function startLoop() {
+  function startLoop(){
     let idx = 0;
-    function next() {
+    function next(){
       createLove(words[idx]);
       idx = (idx + 1) % words.length;
-      setTimeout(next, 120);   // 间隔 120 ms
+      setTimeout(next, 120);
     }
     next();
   }
-
   window.addEventListener('DOMContentLoaded', startLoop);
 </script>
 </body>
