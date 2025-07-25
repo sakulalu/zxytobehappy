@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+<title>❤</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;overflow:hidden;background:#fff;
+            font-family:-apple-system,BlinkMacSystemFont,"SF Pro",sans-serif;}
+
+  /* 淡粉色爱心 */
+  #bigHeart{
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    font-size:28vmin;
+    line-height:1;
+    background:linear-gradient(135deg,#ffb3c1 0%,#fee2e8 100%);
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{transform:translate(-50%,-50%) scale(1);}
+    50%{transform:translate(-50%,-50%) scale(1.04);}
+  }
+
+  /* 放大浮窗 */
+  .popup{
+    position:absolute;
+    max-width:220px;
+    padding:12px 18px;
+    background:#ffb3c1;
+    color:#fff;
+    font-size:18px;
+    font-weight:500;
+    text-align:center;
+    line-height:1.4;
+    border-radius:28px;
+    box-shadow:0 6px 18px rgba(255,179,193,.35);
+    pointer-events:none;
+    animation:popFade 6s forwards;
+  }
+  @keyframes popFade{
+    0%   {opacity:0;transform:translateY(30px) scale(.5);}
+    8%   {opacity:1;transform:translateY(0) scale(1);}
+    92%  {opacity:1;transform:translateY(0) scale(1);}
+    100% {opacity:0;transform:translateY(-15px) scale(.9);}
+  }
+</style>
+</head>
+<body>
+  <div id="bigHeart">❤</div>
+
+<script>
+  const words = [
+    '一次拒稿只是弯道，不是终点。',
+    'Reviewer 不懂你的好，是他们损失。',
+    '你的研究超有价值，只是还没遇到伯乐。',
+    '好 paper 都经历过三振，才迎来全垒打。',
+    '这不是拒绝，是升级打怪前的存档点。',
+    '今天掉的眼泪，会变成明天引用的雨滴。',
+    '我懂你的失落，但更信你的实力。',
+    '我们一起把它改到让 Editor 无法说不。',
+    '你的努力≈未来某个学者的“灵感之源”。',
+    '拒稿是学术界的成人礼，恭喜你进阶。',
+    '先抱抱，再一起改图改表改到发光。',
+    '好故事都要多打磨几稿，你也是。',
+    'Reviewer 的苛刻，是你下次致谢的动力。',
+    '失败+1，经验值+100，稳赚。',
+    '你正在经历的，是所有大佬的同款剧情。',
+    '今晚允许难过，明早继续惊艳。',
+    '你的名字，迟早会印在最好的期刊上。',
+    '别怕慢，好的 science 都值得等。',
+    '我陪你把“major revision”变成“accepted”。',
+    '你超棒的，加油！','相信自己，你可以！'
+  ];
+
+  function createLove(text) {
+    const pop = document.createElement('div');
+    pop.className = 'popup';
+    pop.textContent = text;
+    pop.style.left = Math.random() * (window.innerWidth - 220) + 'px';
+    pop.style.top  = Math.random() * (window.innerHeight - 80) + 'px';
+    document.body.appendChild(pop);
+    setTimeout(() => pop.remove(), 6000);
+  }
+
+  // 无限循环 75 句
+  function startLoop() {
+    let idx = 0;
+    function next() {
+      createLove(words[idx]);
+      idx = (idx + 1) % words.length;
+      setTimeout(next, 180);   // 每句间隔 180 ms
+    }
+    next();
+  }
+
+  window.addEventListener('DOMContentLoaded', startLoop);
+</script>
+</body>
+</html>
