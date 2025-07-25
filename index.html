@@ -9,43 +9,39 @@
   html,body{height:100%;overflow:hidden;background:#fff;
             font-family:-apple-system,BlinkMacSystemFont,"SF Pro",sans-serif;}
 
-  /* 淡粉色爱心 */
   #bigHeart{
     position:absolute;top:50%;left:50%;
     transform:translate(-50%,-50%);
-    font-size:28vmin;
+    font-size:24vmin;
     line-height:1;
-    background:linear-gradient(135deg,#ffb3c1 0%,#fee2e8 100%);
-    -webkit-background-clip:text;
-    color:transparent;
+    color:#ffb3c1;                 /* 柔和淡粉 */
     animation:pulse 2.4s ease-in-out infinite;
   }
   @keyframes pulse{
     0%,100%{transform:translate(-50%,-50%) scale(1);}
-    50%{transform:translate(-50%,-50%) scale(1.04);}
+    50%{transform:translate(-50%,-50%) scale(1.03);}
   }
 
-  /* 放大浮窗 */
   .popup{
     position:absolute;
-    max-width:150px;          /* 再缩小 */
-    padding:8px 12px;
+    max-width:120px;             /* 再缩小 */
+    padding:6px 10px;
     background:#ffb3c1;
     color:#fff;
-    font-size:14px;
+    font-size:12px;
     font-weight:500;
     text-align:center;
     line-height:1.3;
-    border-radius:20px;
-    box-shadow:0 3px 10px rgba(255,179,193,.3);
+    border-radius:18px;
+    box-shadow:0 2px 8px rgba(255,179,193,.25);
     pointer-events:none;
     animation:popFade 6s forwards;
   }
   @keyframes popFade{
-    0%   {opacity:0;transform:translateY(30px) scale(.5);}
+    0%   {opacity:0;transform:translateY(12px) scale(.45);}
     8%   {opacity:1;transform:translateY(0) scale(1);}
     92%  {opacity:1;transform:translateY(0) scale(1);}
-    100% {opacity:0;transform:translateY(-15px) scale(.9);}
+    100% {opacity:0;transform:translateY(-6px) scale(.85);}
   }
 </style>
 </head>
@@ -73,26 +69,25 @@
     '你的名字，迟早会印在最好的期刊上。',
     '别怕慢，好的 science 都值得等。',
     '我陪你把“major revision”变成“accepted”。',
-    '你超棒的，加油！','相信自己，你可以！'
+    '你超棒的，加油！'
   ];
 
   function createLove(text) {
     const pop = document.createElement('div');
     pop.className = 'popup';
     pop.textContent = text;
-    pop.style.left = Math.random() * (window.innerWidth - 220) + 'px';
-    pop.style.top  = Math.random() * (window.innerHeight - 80) + 'px';
+    pop.style.left = Math.random() * (window.innerWidth - 120) + 'px';
+    pop.style.top  = Math.random() * (window.innerHeight - 50) + 'px';
     document.body.appendChild(pop);
     setTimeout(() => pop.remove(), 6000);
   }
 
-  // 无限循环 75 句
   function startLoop() {
     let idx = 0;
     function next() {
       createLove(words[idx]);
       idx = (idx + 1) % words.length;
-      setTimeout(next, 180);   // 每句间隔 180 ms
+      setTimeout(next, 120);   // 间隔 120 ms
     }
     next();
   }
