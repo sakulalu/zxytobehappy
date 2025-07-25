@@ -6,7 +6,7 @@
 <title>❤</title>
 <style>
   :root{
-    --love-size:28vmin;   /* 默认值，会被脚本覆盖 */
+    --love-size:28vmin;   /* 默认，脚本会覆盖 */
     --pop-max:180px;
     --pop-pad:8px 12px;
     --pop-fs:14px;
@@ -41,16 +41,16 @@
     font-weight:500;
     text-align:center;
     line-height:1.3;
-    border-radius:20px;
-    box-shadow:0 2px 8px rgba(255,179,193,.25);
+    border-radius:22px;
+    box-shadow:0 3px 12px rgba(255,179,193,.3);
     pointer-events:none;
     animation:popFade 6s forwards;
   }
   @keyframes popFade{
-    0%   {opacity:0;transform:translateY(12px) scale(.45);}
-    8%   {opacity:1;transform:translateY(0) scale(1);}
-    92%  {opacity:1;transform:translateY(0) scale(1);}
-    100% {opacity:0;translateY(-6px) scale(.85);}
+    0%   {opacity:0;transform:translateY(20px) scale(.5);}
+    10%  {opacity:1;transform:translateY(0) scale(1);}
+    90%  {opacity:1;transform:translateY(0) scale(1);}
+    100% {opacity:0;transform:translateY(-10px) scale(.9);}
   }
 </style>
 </head>
@@ -58,8 +58,8 @@
   <div id="bigHeart">❤</div>
 
 <script>
-  /* 设备检测并设置 CSS 变量 */
-  (function setSizes(){
+  /* 设备检测 + 尺寸/间隔设置 */
+  (function init(){
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile){
       document.documentElement.style.setProperty('--love-size','22vmin');
@@ -68,8 +68,8 @@
       document.documentElement.style.setProperty('--pop-fs','12px');
     }else{
       document.documentElement.style.setProperty('--love-size','15vmin');
-      document.documentElement.style.setProperty('--pop-max','160px');
-      document.documentElement.style.setProperty('--pop-pad','10px 14px');
+      document.documentElement.style.setProperty('--pop-max','200px');
+      document.documentElement.style.setProperty('--pop-pad','12px 18px');
       document.documentElement.style.setProperty('--pop-fs','16px');
     }
   })();
@@ -101,8 +101,10 @@
     const pop = document.createElement('div');
     pop.className = 'popup';
     pop.textContent = text;
-    pop.style.left = Math.random() * (window.innerWidth - parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pop-max'))) + 'px';
-    pop.style.top  = Math.random() * (window.innerHeight - 50) + 'px';
+    const w = parseInt(getComputedStyle(document.documentElement)
+                       .getPropertyValue('--pop-max'));
+    pop.style.left = Math.random() * (window.innerWidth - w) + 'px';
+    pop.style.top  = Math.random() * (window.innerHeight - 60) + 'px';
     document.body.appendChild(pop);
     setTimeout(() => pop.remove(), 6000);
   }
@@ -112,9 +114,9 @@
     function next(){
       createLove(words[idx]);
       idx = (idx + 1) % words.length;
-      setTimeout(next, 120);
     }
-    next();
+    next();                       // 立即第一句
+    setInterval(next, 250);      
   }
   window.addEventListener('DOMContentLoaded', startLoop);
 </script>
